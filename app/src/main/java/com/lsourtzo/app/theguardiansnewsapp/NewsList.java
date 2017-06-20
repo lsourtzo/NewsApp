@@ -4,31 +4,27 @@ package com.lsourtzo.app.theguardiansnewsapp;
  * Created by lsourtzo on 14/05/2017.
  */
 
+//that was as required for issues with name ... but from the link tou send me "Class Names should always start with upperCases".
+//So, why this is wrong ?
 public class NewsList {
 
-    private String mCat;
-    private String mTitle;
-    private String mTime;
-    private String mLink;
-    private String mImageURL;
-    private int mVis;
+    //I am not sure if I understand well this suggestion. But I hope this is what you mean.
+    //One question only? if we want to call this class with different arguments how we can to that ?
+    final private String mCat;
+    final private String mTitle;
+    final private String mTime;
+    final private String mLink;
+    final private String mImageURL;
+    final private int mVis;
 
-    // title is for title , textd is for the main text, sorttext is for sortversion text in button and imageId its for image
-    public NewsList(String cat, String title, String time, String imageURL, String link) {
-        mCat = cat;
-        mTitle = title;
-        mTime = time;
-        mLink = link;
-        mImageURL = imageURL;
-    }
-
-    // this one needed for data-binding
-    public NewsList(String cat, String title, String time, String imageURL,int vis) {
-        mCat = cat;
-        mTitle = title;
-        mTime = time;
-        mImageURL = imageURL;
-        mVis = vis;
+    // title is for title , textd is for the main text, sorttext is for sort version text in button and imageId its for image
+    public NewsList(String cat, String title, String time, String imageURL, String link,int vis) {
+        this.mCat = cat;
+        this.mTitle = title;
+        this.mTime = time;
+        this.mLink = link;
+        this.mImageURL = imageURL;
+        this.mVis = vis;
     }
 
     public String getCat() {
@@ -53,10 +49,5 @@ public class NewsList {
 
     public int isVis() {
         return mVis;
-    }
-
-    //this one returns which of the list layouts will be showing
-    public void setVis(int Visible) {
-        mVis = Visible;
     }
 }

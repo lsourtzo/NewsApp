@@ -30,15 +30,15 @@ public class Fragment_Activity extends Fragment implements LoaderManager.LoaderC
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     android.app.FragmentManager fragmentManager;
-    TextView CenterMessage;
+    TextView centerMessage;
     TextView errorTextView;
-    WebView browser;
+    private WebView browser;
     TextView footerButton;
     private static final int NEWS_LOADER_ID = 1;
     private NewsListAdapter mAdapter;
     String requestUrl;
     String startURL;
-    int Page;
+    int page;
     LoaderManager loaderManager;
     ProgressBar loadingIndicator;
     ProgressBar loadingIndicator2;
@@ -60,16 +60,19 @@ public class Fragment_Activity extends Fragment implements LoaderManager.LoaderC
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             requestUrl = getArguments().getString("finalUrl");
-            startURL= getArguments().getString("finalUrl");
-            Page = getArguments().getInt("Page");
-            requestUrl=requestUrl+"&page="+Page;
-            Page=Page+1;
+            // we will need startURL variable to keep the starting url untouched to send it in next request to build next url.
+            // it's the easiest way. other way we must parsing the url and cut the page number before add the new one.
+            startURL= requestUrl;
+            page = getArguments().getInt("Page");
+            requestUrl=requestUrl+"&page="+page;
+            page=page+1;
         } else {
             try {
                 loadingIndicator.setVisibility(View.VISIBLE);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            // here I add the default url in case something goes wrong when getting arguments from caller
             requestUrl = "https://content.guardianapis.com/search?page-size=30&show-fields=thumbnail&api-key=6089f2c9-7906-4836-bbf2-a9b6cab55f02";
         }
 
@@ -171,8 +174,8 @@ public class Fragment_Activity extends Fragment implements LoaderManager.LoaderC
     @Override
     public void onLoadFinished(Loader<List<NewsList>> loader, List<NewsList> data) {
         // Hide loading indicator because the data has been loaded
-        CenterMessage = (TextView) getActivity().findViewById(R.id.errorMessage);
-        CenterMessage.setVisibility(View.GONE);
+        centerMessage = (TextView) getActivity().findViewById(R.id.errorMessage);
+        centerMessage.setVisibility(View.GONE);
         // Hide Message because the data has been loaded
         try {
             loadingIndicator.setVisibility(View.GONE);
@@ -216,7 +219,7 @@ public class Fragment_Activity extends Fragment implements LoaderManager.LoaderC
         }
         Bundle bundle = new Bundle();
         bundle.putString("finalUrl", startURL);
-        bundle.putInt("Page", Page);
+        bundle.putInt("Page", page);
         // set Fragmentclass Arguments
         fragment.setArguments(bundle);
         fragmentManager = getFragmentManager();

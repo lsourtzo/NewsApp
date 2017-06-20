@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,8 +33,9 @@ public class MainActivity extends AppCompatActivity
     SearchView searchView;
     String queryWord = "";
     // the default url ...
+    // this cant be static ... it's gonna change adding more searching preferences
     String finalUrl = "https://content.guardianapis.com/search?q=&page-size=30&show-fields=thumbnail&api-key=6089f2c9-7906-4836-bbf2-a9b6cab55f02";
-    String Category = "";
+    String category = "";
 
     //Save Instance State to save the current search options on rotation.
     @Override
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        Category = item.getTitle().toString();
+        category = item.getTitle().toString();
         queryWord = "";
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -192,13 +192,13 @@ public class MainActivity extends AppCompatActivity
         newURL.append("https://content.guardianapis.com/search?q=");
 
         // Searching word
-        if (Category.equals("Home")) {
-            Category="";
-        } else if (Category.equals("Greece")) {
-            Category="";
+        if (category.equals("Home")) {
+            category ="";
+        } else if (category.equals("Greece")) {
+            category ="";
             newURL.append("Greece");
         }
-        if (queryWord.equals("")) {
+        if (queryWord.isEmpty()) {
             newURL.append("");
         } else {
             // this is important to search for more than one word ...
@@ -206,8 +206,9 @@ public class MainActivity extends AppCompatActivity
             newURL.append(queryWord);
         }
 
-        if (!Category.equals("")){
-        newURL.append("&section=" + Category);}
+        if (!category.isEmpty()){
+            newURL.append("&section=" + category);
+        }
 
         // Api key and thumbnails
         newURL.append("&page-size=30&show-fields=thumbnail&api-key=6089f2c9-7906-4836-bbf2-a9b6cab55f02");
@@ -227,7 +228,7 @@ public class MainActivity extends AppCompatActivity
         // set Fragmentclass Arguments
         fragment.setArguments(bundle);
         fragmentManager = getFragmentManager();
-        // Replace the existing fragment...by Reseting the stack.
+        // Replace the existing fragment...by Resetting the stack.
         fragmentManager.popBackStackImmediate("0", 0);
         int count = fragmentManager.getBackStackEntryCount();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).addToBackStack(String.valueOf(count)).commit();

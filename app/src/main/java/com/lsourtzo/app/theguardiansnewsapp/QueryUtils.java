@@ -95,6 +95,8 @@ public final class QueryUtils extends ListActivity {
             return jsonResponse;
         }
 
+        Log.d("test"," "+ url);
+
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         try {
@@ -228,7 +230,7 @@ public final class QueryUtils extends ListActivity {
 
                     // Create a new {@link news} object with the magnitude, location, time,
                     // and url from the JSON response.
-                    NewsList newsList = new NewsList(cat,title, time,imageURL, linkURL);
+                    NewsList newsList = new NewsList(cat,title, time,imageURL, linkURL,0);
 
                     // Add the new {@link news} to the list of news.
                     news.add(newsList);

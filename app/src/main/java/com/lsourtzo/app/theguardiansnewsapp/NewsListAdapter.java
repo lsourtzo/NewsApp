@@ -35,6 +35,8 @@ public class NewsListAdapter extends ArrayAdapter<NewsList> {
     @Override
     public View getView(int position,  View convertView,  ViewGroup parent ) {
         View listItemView = convertView;
+        int whereTheDoteIs;
+
         if(listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
                     R.layout.item_main, parent, false);
@@ -49,24 +51,24 @@ public class NewsListAdapter extends ArrayAdapter<NewsList> {
         NewsList currentArticle = getItem(position);
 
         //check title size ...
-        String temp3 = currentArticle.getCat();
-        if (temp3.length() > 60) {
-            int temp2 = temp3.lastIndexOf(".");
-            if ((temp2 <= 60)&&(temp2>=1)) {
-                temp3 = currentArticle.getTitle().substring(0, temp2);
+        String category = currentArticle.getCat();
+        if (category.length() > 60) {
+            whereTheDoteIs = category.lastIndexOf(".");
+            if ((whereTheDoteIs <= 60)&&(whereTheDoteIs>=1)) {
+                category = currentArticle.getTitle().substring(0, whereTheDoteIs);
             } else {
-                temp3 = currentArticle.getTitle().substring(0, 50) + " ...";
+                category = currentArticle.getTitle().substring(0, 50) + " ...";
             }
         }
 
         //check title size ...
-        String temp4 = currentArticle.getTitle();
-        if (temp4.length() > 80) {
-            int temp5 = temp4.lastIndexOf(".");
-            if ((temp5 <= 80)&&(temp5>=1)) {
-                temp4 = currentArticle.getTitle().substring(0, temp5+1);
+        String basicArticle = currentArticle.getTitle();
+        if (basicArticle.length() > 80) {
+            whereTheDoteIs = basicArticle.lastIndexOf(".");
+            if ((whereTheDoteIs <= 80)&&(whereTheDoteIs>=1)) {
+                basicArticle = currentArticle.getTitle().substring(0, whereTheDoteIs+1);
             } else {
-                temp4 =currentArticle.getTitle().substring(0, 80) + " ...";
+                basicArticle =currentArticle.getTitle().substring(0, 80) + " ...";
             }
         }
 
@@ -77,9 +79,8 @@ public class NewsListAdapter extends ArrayAdapter<NewsList> {
         }else{
             isMain=3;
         }
-        NewsList article = new NewsList(temp3,temp4,currentArticle.getTime(),currentArticle.getImageURL(),isMain);
+        NewsList article = new NewsList(category,basicArticle,currentArticle.getTime(),currentArticle.getImageURL(),currentArticle.getlinkText(),isMain);
         binding.setNews(article);
-
         return binding.getRoot();
     }
 }
